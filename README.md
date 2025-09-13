@@ -1,38 +1,54 @@
-# 🩺🔬 Cataract Surgery Instrument Segmentation with YOLOv8
+# 🎯 YOLO Segmentation (YOLO_segmentation)
 
 ## 💡 Introduction
-This project focuses on segmenting surgical instruments in cataract surgery images using state-of-the-art deep learning techniques. The primary goal is to improve the detection and segmentation accuracy of fine surgical tools to support research in computer-assisted surgery.
+This repository provides a robust pipeline for training and evaluating YOLOv8 segmentation models on custom datasets. The framework can be adapted for various instance segmentation tasks across different domains.
 
-## 📄 Dataset
-- **Name**: InSegCat dataset 1 v1.0 (Publication version)
-- **Link**: [InSegCat Dataset](https://ftp.itec.aau.at/datasets/ovid/InSegCat/index.html)
-- **Images**: 263 annotated surgical images
+## ⚙️ Features
+### ✅ Annotation Conversion
+- Convert COCO-style `.json` annotations to YOLO format using scripts in `convert_json_to_yolo/`
+- Support for various dataset formats and structures
+- Verification utilities in `check_files/` to ensure dataset integrity
 
-## ⚙️ What was done
-### ✅ Annotation conversion
-- Converted InSegCat dataset COCO-style `.json` annotations to YOLO format using scripts in `convert_json_to_yolo/`.
-- Verified all files using `check_files/` utilities to ensure no missing or mismatched images and annotations.
+### ✅ Training Pipeline
+- **YOLOv8-seg** implementation for instance segmentation
+- Pretrained weights support (COCO dataset)
+- Customizable training configuration via `dataset.yaml`
+- Comprehensive training metrics and visualization
 
-### ✅ Training
-- Used **YOLOv8-seg** model for instance segmentation.
-- Base weights (`yolov8n.pt`) pretrained on COCO dataset were fine-tuned.
-- Training executed via `train_yolo.py`, with dataset configuration defined in `dataset.yaml`.
+### ✅ Performance
+- Achieves **mAP50**: ~93% and **mAP50-95**: ~77% on surgical instrument dataset
+- Early stopping integration to prevent overfitting
+- Optimal performance typically around 30 epochs
 
-### ✅ Results
-- **mAP50**: ~93%
-- **mAP50-95**: ~77%
-- Optimal performance observed around **30 epochs**, after which signs of overfitting appeared.
-
-## 🚀 Usage
+## 🚀 Quick Start
 1. Install dependencies:
-   ```
+   ```bash
    pip install -r requirements.txt
    ```
-2. Convert JSON annotations (if needed).
-3. Verify dataset integrity using `check_files`.
-4. Run training:
+
+2. Prepare your dataset:
+   ```bash
+   # Convert annotations if needed
+   python convert_json_to_yolo/convert_annotations.py
+   
+   # Verify dataset integrity
+   python check_files/verify_dataset.py
    ```
+
+3. Configure your dataset in `dataset.yaml`
+
+4. Start training:
+   ```bash
    python train_yolo.py
    ```
-5. Check results in the `runs/` directory.
+
+5. Evaluate results in the `runs/` directory
+
+## 📊 Example Results
+The framework has been successfully tested on the **InSegCat dataset** (263 annotated surgical images) achieving excellent segmentation performance for surgical instruments. The same pipeline can be adapted to your specific segmentation tasks.
+
+## 🔧 Customization
+- Modify `dataset.yaml` for your specific classes and paths
+- Adjust hyperparameters in `train_yolo.py` for optimal performance
+- Extend functionality with custom preprocessing and postprocessing modules
 
